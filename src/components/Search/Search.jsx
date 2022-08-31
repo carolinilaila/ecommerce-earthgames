@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './Search.css'
 
 import data from '../../routes/products.json'
+import { useNavigate } from 'react-router-dom'
 
 function Search() {
   const [value, setValue] = useState('')
@@ -16,16 +17,23 @@ function Search() {
     console.log('search', searchTerm)
   }
 
+  const navigate = useNavigate()
+  const onSubmit = (e) => {
+    navigate.push(`?search=${value}`)
+    e.preventDefault()
+  }
+
   return (
-    <main>
+    <form action="/" method="get" autoComplete="off" onSubmit={onSubmit}>
       <div className="b-search__content">
         <input
           placeholder="search for game"
           type="text"
           value={value}
           onChange={onChange}
+          name="search"
         ></input>
-        <button type="button" onClick={() => onSearch(value)}>
+        <button type="submit" onClick={() => onSearch(value)}>
           Search
         </button>
       </div>
@@ -52,7 +60,7 @@ function Search() {
             </div>
           ))}
       </div>
-    </main>
+    </form>
   )
 }
 
